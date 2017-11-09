@@ -2,50 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1685cb4a-a537-4a39-937c-3014d60c9b79" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/classes/no/kij/socketscheduler/client/Main.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/lib/commons-io-2.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/lib/jansi-1.16.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/lib/ormlite-core-5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/lib/socket-scheduler-common-1.0-SNAPSHOT.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/target/socket-scheduler-client-1.0-SNAPSHOT.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dao/LecturerDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dao/LecturerDaoImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dao/SubjectDao.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dao/SubjectDaoImpl.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dto/LecturerDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dto/SubjectDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/dto/SubjectLecturerDTO.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/classes/no/kij/socketscheduler/common/util/ResourceFetcher.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/lib/commons-io-2.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/lib/ormlite-core-5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/common/target/socket-scheduler-common-1.0-SNAPSHOT.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/credentials.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/lecturers.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/no/kij/socketscheduler/server/ClientThread.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/no/kij/socketscheduler/server/Main.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/no/kij/socketscheduler/server/db/ConnectionManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/no/kij/socketscheduler/server/db/DaoDelegator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/no/kij/socketscheduler/server/db/DatabaseInitializer.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/classes/subjects.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/commons-io-2.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/gson-2.8.1.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/jansi-1.16.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/mysql-connector-java-5.1.39.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/ormlite-core-5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/ormlite-jdbc-5.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/lib/socket-scheduler-common-1.0-SNAPSHOT.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/maven-archiver/pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/server/target/socket-scheduler-server-1.0-SNAPSHOT.jar" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/src/main/java/no/kij/socketscheduler/server/ClientThread.java" afterPath="$PROJECT_DIR$/server/src/main/java/no/kij/socketscheduler/server/ClientThread.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/client/target/" />
@@ -109,11 +67,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/main/java/no/kij/socketscheduler/client/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state relative-caret-position="414">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1188">
+              <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -298,159 +266,6 @@
               <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
               <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="dto" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SocketScheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SocketScheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -632,15 +447,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510067680294</updated>
-      <workItem from="1510067683245" duration="43491000" />
+      <workItem from="1510067683245" duration="43594000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43491000" />
+    <option name="totallyTimeSpent" value="43594000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -650,7 +466,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21878453" sideWeight="0.5021322" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.123667374" sideWeight="0.49613258" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25303867" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25303867" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.123667374" sideWeight="0.5038674" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928178" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -688,13 +504,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://table:/e85c2c2f/3a3bfb42-5c45-44fd-8474-39a124266de3/orm.lecturers">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://table:/e85c2c2f/3a3bfb42-5c45-44fd-8474-39a124266de3/orm.lecturers">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1070,8 +879,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/java/no/kij/socketscheduler/client/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state relative-caret-position="414">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1188">
+          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
           <folding />
         </state>
       </provider>
