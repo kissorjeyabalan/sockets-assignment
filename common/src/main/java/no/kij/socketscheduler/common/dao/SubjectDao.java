@@ -12,5 +12,6 @@ import java.util.List;
  */
 public interface SubjectDao extends Dao<SubjectDTO, Integer> {
     List<LecturerDTO> findLecturersForSubject(SubjectDTO subjectDTO) throws SQLException;
+    List<SubjectDTO> findSubjectsForLecturer(LecturerDTO lecturerDTO) throws SQLException;
     SubjectDTO updateSubject(SubjectDTO subjectDTO) throws SQLException;
 }

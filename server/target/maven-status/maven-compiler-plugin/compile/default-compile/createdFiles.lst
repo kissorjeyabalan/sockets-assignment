@@ -1,0 +1,5 @@
+no\kij\socketscheduler\server\db\DaoDelegator.class
+no\kij\socketscheduler\server\db\DatabaseInitializer.class
+no\kij\socketscheduler\server\ClientThread.class
+no\kij\socketscheduler\server\db\ConnectionManager.class
+no\kij\socketscheduler\server\Main.class

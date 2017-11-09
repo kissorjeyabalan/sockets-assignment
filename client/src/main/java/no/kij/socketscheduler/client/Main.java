@@ -1,18 +1,17 @@
 package no.kij.socketscheduler.client;
 
-import no.kij.socketscheduler.common.util.ResourceFetcher;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Properties;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class Main {
     private final int PORT = 8432;
-    private final String KILL_HANGUP = "END_TRANSMISSION";
+    private final String END_TRANSMISSION = "END_TRANSMISSION";
+    private final String END_CONNECTION = "END_CONNECTION";
     private Socket server;
     private DataOutputStream outputStream;
     private DataInputStream inputStream;
@@ -23,7 +22,14 @@ public class Main {
         AnsiConsole.systemInstall();
         Main main = new Main();
         main.startClient();
+
+        System.out.println(String.format("%-25s %s",
+                "Name", "Subject"));
+        System.out.println(String.format("%-25s %s",
+                "Praskovya Pokrovskaya", "Avansert Javaprogrammering"));
     }
+
+
 
     private void startClient() {
         System.out.println("Attempting to open connection...");
@@ -35,11 +41,15 @@ public class Main {
             System.out.println("Connection opened!\n");
             openStreams();
 
-            do {
+            while (running) {
                 receiveMsgFromServer();
-                System.out.println(">>> ");
-                sendMsgToServer(scanner.nextLine());
-            } while (running);
+                if (running) {
+                    System.out.println(">>> ");
+                    sendMsgToServer(scanner.nextLine());
+                }
+            }
+
+            System.out.println("Client shutdown.");
 
         } catch (IOException e) {
             System.err.println("Could not establish connection to the server.");
@@ -52,7 +62,7 @@ public class Main {
             outputStream.writeUTF(msg);
             outputStream.flush();
         } catch (IOException e) {
-            System.err.println("Something went wrong while sending the message to client.");
+            System.err.println("Something went wrong while sending the message to server.");
             System.err.println(e.getMessage());
         }
     }
@@ -62,9 +72,14 @@ public class Main {
             String msg;
             do {
                 msg = inputStream.readUTF();
-                if (!msg.equals(KILL_HANGUP))
+                if (msg.equals(END_CONNECTION)) {
+                    running = false;
+                    return;
+                }
+                if (!msg.equals(END_TRANSMISSION)) {
                     System.out.println(ansi().render(msg));
-            } while (!msg.equals(KILL_HANGUP));
+                }
+            } while (!msg.equals(END_TRANSMISSION));
         } catch (IOException e) {
             System.err.println("Could not receive msg from server.");
             System.err.println(e.getMessage());

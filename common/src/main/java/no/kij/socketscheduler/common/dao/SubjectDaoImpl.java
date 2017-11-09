@@ -34,6 +34,15 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return subject;
     }
 
+    @Override
+    public List<SubjectDTO> queryForAll() throws SQLException {
+        List<SubjectDTO> subjectDTOs = super.queryForAll();
+        for (SubjectDTO subjectDTO : subjectDTOs) {
+            subjectDTO.setLecturers(findLecturersForSubject(subjectDTO));
+        }
+        return subjectDTOs;
+    }
+
     /**
      * Persists the given subject to the database if they already do not exist.
      * @param data The subjectDTO to persist
@@ -81,6 +90,11 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return lookupLecturersForSubject(data);
     }
 
+    public List<SubjectDTO> findSubjectsForLecturer(LecturerDTO data) throws SQLException {
+        return lookupSubjectsForLecturer(data);
+    }
+
+
     /**
      * The private implementation for finding the lecturers for the subject.
      * @param data Subject to find lecturers for
@@ -92,6 +106,13 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         lecturersForSubjectQuery.setArgumentHolderValue(0, data);
         return lecturerDao.query(lecturersForSubjectQuery);
     }
+
+    private List<SubjectDTO> lookupSubjectsForLecturer(LecturerDTO data) throws SQLException {
+        PreparedQuery<SubjectDTO> subjectsForLecturerQuery = makeSubjectForLecturerQuery();
+        subjectsForLecturerQuery.setArgumentHolderValue(0, data);
+        return query(subjectsForLecturerQuery);
+    }
+
 
 
     private PreparedQuery<SubjectDTO> makeSubjectForLecturerQuery() throws SQLException {

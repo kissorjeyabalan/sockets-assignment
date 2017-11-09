@@ -15,6 +15,8 @@ import java.sql.SQLException;
  */
 public class DaoDelegator {
     private ConnectionManager connectionManager;
+    private SubjectDao subjectDao;
+    private LecturerDao lecturerDao;
 
     public DaoDelegator(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -39,8 +41,12 @@ public class DaoDelegator {
      * @return LecturerDao
      */
     public LecturerDao getLecturerDao() {
+        if (lecturerDao != null) {
+            return lecturerDao;
+        }
         try {
-            return new LecturerDaoImpl(connectionManager.getConnectionSource());
+            lecturerDao = new LecturerDaoImpl(connectionManager.getConnectionSource());
+            return lecturerDao;
         } catch (SQLException e) {
             System.err.println("Something went wrong while creating the Dao.");
             System.err.println(e.getMessage());

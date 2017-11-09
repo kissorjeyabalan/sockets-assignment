@@ -1,0 +1,8 @@
+no\kij\socketscheduler\common\dto\SubjectLecturerDTO.class
+no\kij\socketscheduler\common\dao\LecturerDao.class
+no\kij\socketscheduler\common\dao\SubjectDaoImpl.class
+no\kij\socketscheduler\common\dao\SubjectDao.class
+no\kij\socketscheduler\common\dto\LecturerDTO.class
+no\kij\socketscheduler\common\util\ResourceFetcher.class
+no\kij\socketscheduler\common\dao\LecturerDaoImpl.class
+no\kij\socketscheduler\common\dto\SubjectDTO.class

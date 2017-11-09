@@ -19,6 +19,7 @@ import static org.fusesource.jansi.Ansi.ansi;
  */
 public class Main {
     private final int PORT = 8432;
+    private ConnectionManager connectionManager;
 
     public static void main(String[] args) {
         // this is for enabling ansi output to windows cli
@@ -26,18 +27,17 @@ public class Main {
         // since we are using the console for our application, we don't want debug level items ending up as clutter,
         // so we disable all log for debug, except error.
         System.setProperty(LocalLog.LOCAL_LOG_LEVEL_PROPERTY, "ERROR");
-
-        Properties creds = ResourceFetcher.getProperty("credentials");
-        ConnectionManager connectionManager = new ConnectionManager(creds);
-        DatabaseInitializer dbIn = new DatabaseInitializer(connectionManager);
-        dbIn.initializeTables();
-        dbIn.initializeTableContent();
-
         Main main = new Main();
         main.startServer();
     }
 
     public void startServer() {
+        Properties creds = ResourceFetcher.getProperty("credentials");
+        connectionManager = new ConnectionManager(creds);
+        DatabaseInitializer dbIn = new DatabaseInitializer(connectionManager);
+        dbIn.initializeTables();
+        dbIn.initializeTableContent();
+
         System.out.println(ansi().render("@|bold,green Server started!|@"));
         try {
             ServerSocket server = new ServerSocket(PORT);
@@ -54,7 +54,7 @@ public class Main {
             System.out.println(ansi().render("@|bold,cyan Looking for new connection...|@"));
             Socket clientSocket = server.accept();
             System.out.println(ansi().render("@|cyan Connected to client " + ++client + "!|@"));
-            ClientThread clientThread = new ClientThread(clientSocket);
+            ClientThread clientThread = new ClientThread(clientSocket, connectionManager);
             new Thread(clientThread).start();
             System.out.println(ansi().render("@|cyan Assigned client|@ @|red " + client + "|@ @|cyan a new thread!\n|@"));
         }
