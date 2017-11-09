@@ -182,6 +182,11 @@ public class ClientThread implements Runnable {
                 System.err.println(e.getMessage());
             }
 
+            // hack to avoid nullpointer later
+            if (subjects.size() == 0) {
+                subjects.add(null);
+            }
+
             sendMsgToClient(
                     String.format("%-25s %s",
                             lecturerDTO.getName(),
