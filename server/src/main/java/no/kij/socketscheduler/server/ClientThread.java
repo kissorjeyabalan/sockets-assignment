@@ -1,6 +1,5 @@
 package no.kij.socketscheduler.server;
 
-import no.kij.socketscheduler.common.dao.LecturerDao;
 import no.kij.socketscheduler.common.dto.LecturerDTO;
 import no.kij.socketscheduler.common.dto.SubjectDTO;
 import no.kij.socketscheduler.server.db.ConnectionManager;
@@ -22,6 +21,7 @@ import static org.fusesource.jansi.Ansi.ansi;
  * This also houses all the logic for parsing the incoming commands from the client.
  */
 public class ClientThread implements Runnable {
+    //region Properties
     private final String END_TRANSMISSION = "END_TRANSMISSION";
     private final String END_CONNECTION = "END_CONNECTION";
     private Socket clientSocket;
@@ -29,14 +29,17 @@ public class ClientThread implements Runnable {
     private DataOutputStream outputStream;
     private DataInputStream inputStream;
     private boolean running;
+    //endregion
 
-
+    //region Constructor
     public ClientThread(Socket clientSocket, ConnectionManager connectionManager) {
         this.clientSocket = clientSocket;
         dao = new DaoDelegator(connectionManager);
         openStreams();
     }
+    //endregion
 
+    //region Listener
     @Override
     public void run() {
         String msg = "@|green You have been successfully connected to the Scheduler Database.\n" +
@@ -50,8 +53,32 @@ public class ClientThread implements Runnable {
             findCmd(msg);
         }
     }
+    //endregion
 
+    //region Stream Management
+    private void openStreams() {
+        try {
+            outputStream = new DataOutputStream(clientSocket.getOutputStream());
+            inputStream = new DataInputStream(clientSocket.getInputStream());
+        } catch (IOException e) {
+            System.err.println("Could not open IO streams for the client.");
+            System.err.println(e.getMessage());
+        }
+    }
 
+    private void closeStreams() {
+        try {
+            System.out.println("Closing streams and terminating thread.");
+            outputStream.close();
+            inputStream.close();
+            clientSocket.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    //endregion
+
+    //region Client Communication
     private String receiveMsgFromClient() {
         try {
             return inputStream.readUTF();
@@ -72,41 +99,47 @@ public class ClientThread implements Runnable {
             System.err.println(e.getMessage());
         }
     }
+    //endregion
 
-    private void openStreams() {
-        try {
-            outputStream = new DataOutputStream(clientSocket.getOutputStream());
-            inputStream = new DataInputStream(clientSocket.getInputStream());
-        } catch (IOException e) {
-            System.err.println("Could not open IO streams for the client.");
-            System.err.println(e.getMessage());
+    //region Command Management
+    private void findCmd(String input) {
+        String[] splitInput = input.toLowerCase().split(" ");
+        if (splitInput.length > 0) {
+            switch (splitInput[0]) {
+                case "list":
+                    if (splitInput.length > 1) {
+                        listAll(splitInput[1]);
+                    } else {
+                        sendUsage("list");
+                    }
+                    break;
+                case "search":
+                    if (splitInput.length > 2) {
+                        List<String> refinedInput = new ArrayList<>();
+                        for (int i = 1; i < splitInput.length; i++) {
+                            refinedInput.add(splitInput[i]);
+                        }
+                        //search(refinedInput);
+                    } else {
+                        sendUsage("search");
+                    }
+                    break;
+                case "help":
+                    if (splitInput.length > 1) {
+                        sendHelp(splitInput[1]);
+                    } else {
+                        sendHelp();
+                    }
+                    break;
+                case "exit":
+                    running = false;
+                    sendMsgToClient("Goodbye.");
+                    sendMsgToClient(END_CONNECTION);
+                    closeStreams();
+                    break;
+            }
         }
-    }
-
-    private void closeThread() {
-        try {
-            System.out.println("Closing streams and terminating thread.");
-            outputStream.close();
-            inputStream.close();
-            clientSocket.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-
-    private void sendTableHeader(String header) {
-        switch (header) {
-            case "lecturer":
-                sendMsgToClient("@|bold,cyan " + String.format("%-25s %s", "Name", "Subject" + "|@"));
-                sendMsgToClient("@|cyan -------------------------------- |@");
-                break;
-            case "subject":
-                sendMsgToClient("@|bold,cyan " +
-                        String.format("%-30s %-10s %-10s %s", "Subject", "Code", "Enrolled", "Lecturer(s)|@"));
-                sendMsgToClient("@|cyan ----------------------------------------------------------------------------- |@");
-                break;
-        }
+        sendMsgToClient(END_TRANSMISSION);
     }
 
     private void listAll(String arg) {
@@ -137,7 +170,22 @@ public class ClientThread implements Runnable {
         }
         sendMsgToClient(END_TRANSMISSION);
     }
+    //endregion
 
+    //region Commmand Helpers
+    private void sendTableHeader(String header) {
+        switch (header) {
+            case "lecturer":
+                sendMsgToClient("@|bold,cyan " + String.format("%-25s %s", "Name", "Subject" + "|@"));
+                sendMsgToClient("@|cyan -------------------------------- |@");
+                break;
+            case "subject":
+                sendMsgToClient("@|bold,cyan " +
+                        String.format("%-30s %-10s %-10s %s", "Subject", "Code", "Enrolled", "Lecturer(s)|@"));
+                sendMsgToClient("@|cyan ----------------------------------------------------------------------------- |@");
+                break;
+        }
+    }
 
     private void sendSubject(SubjectDTO subjectDTO) {
         if (subjectDTO != null) {
@@ -208,47 +256,6 @@ public class ClientThread implements Runnable {
         }
     }
 
-
-    private void findCmd(String input) {
-        String[] splitInput = input.toLowerCase().split(" ");
-        if (splitInput.length > 0) {
-            switch (splitInput[0]) {
-                case "list":
-                    if (splitInput.length > 1) {
-                        listAll(splitInput[1]);
-                    } else {
-                        sendUsage("list");
-                    }
-                    break;
-                case "search":
-                    if (splitInput.length > 2) {
-                        List<String> refinedInput = new ArrayList<>();
-                        for (int i = 1; i < splitInput.length; i++) {
-                            refinedInput.add(splitInput[i]);
-                        }
-                        //search(refinedInput);
-                    } else {
-                        sendUsage("search");
-                    }
-                    break;
-                case "help":
-                    if (splitInput.length > 1) {
-                        sendHelp(splitInput[1]);
-                    } else {
-                        sendHelp();
-                    }
-                    break;
-                case "exit":
-                    running = false;
-                    sendMsgToClient("Goodbye.");
-                    sendMsgToClient(END_CONNECTION);
-                    closeThread();
-                    break;
-            }
-        }
-        sendMsgToClient(END_TRANSMISSION);
-    }
-
     private void sendUsage(String cmd) {
         switch (cmd) {
             case "list":
@@ -297,4 +304,5 @@ public class ClientThread implements Runnable {
             sendMsgToClient("@|red list|@");
         }
     }
+    //endregion
 }
