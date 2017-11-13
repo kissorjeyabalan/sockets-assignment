@@ -57,6 +57,10 @@ public class ClientThread implements Runnable {
     //endregion
 
     //region Stream Management
+
+    /**
+     * Opens the streams to communicate with the client.
+     */
     private void openStreams() {
         try {
             outputStream = new DataOutputStream(clientSocket.getOutputStream());
@@ -67,6 +71,9 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Closes the streams and socket.
+     */
     private void closeStreams() {
         try {
             System.out.println("Closing streams and terminating thread.");
@@ -103,6 +110,11 @@ public class ClientThread implements Runnable {
     //endregion
 
     //region Command Management
+
+    /**
+     * Find the correct command from given input.
+     * @param input String including all parts of the command
+     */
     private void findCmd(String input) {
         String[] splitInput = input.toLowerCase().split(" ");
         if (splitInput.length > 0) {
@@ -120,7 +132,7 @@ public class ClientThread implements Runnable {
                         for (int i = 1; i < splitInput.length; i++) {
                             refinedInput.add(splitInput[i]);
                         }
-                        //search(refinedInput);
+                        search(refinedInput);
                     } else {
                         sendUsage("search");
                     }
@@ -143,6 +155,10 @@ public class ClientThread implements Runnable {
         sendMsgToClient(END_TRANSMISSION);
     }
 
+    /**
+     * Search a single item
+     * @param args List containing the item to search for and values for said item
+     */
     private void search(List<String> args) {
         switch(args.get(0)) {
             case "lecturer":
@@ -156,12 +172,25 @@ public class ClientThread implements Runnable {
                 } else {
                     sendMsgToClient("No result was found.");
                 }
-                sendMsgToClient(END_TRANSMISSION);
+                break;
+            case "subject":
+                args.remove(0);
+                String subjectName = args.stream().collect(Collectors.joining(" "));
+                SubjectDTO subjectDTO = dao.getSubjectDao().findSubjectByCodeOrName(subjectName);
+                sendTableHeader("subject");
+                if (subjectDTO != null) {
+                    sendSubject(subjectDTO);
+                } else {
+                    sendMsgToClient("No result was found.");
+                }
                 break;
         }
     }
 
-
+    /**
+     * Send all of the requested item to the client.
+     * @param arg The type of item to search for
+     */
     private void listAll(String arg) {
         try {
             switch (arg) {
@@ -188,11 +217,15 @@ public class ClientThread implements Runnable {
             sendMsgToClient("Failed to retrieve list of lecturers.");
             sendMsgToClient(END_TRANSMISSION);
         }
-        sendMsgToClient(END_TRANSMISSION);
     }
     //endregion
 
     //region Senders
+
+    /**
+     * Used to send the table header for a specific type of item.
+     * @param header
+     */
     private void sendTableHeader(String header) {
         switch (header) {
             case "lecturer":
@@ -207,6 +240,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Send given item to client in formatted format.
+     * @param subjectDTO The subject to extract information from
+     */
     private void sendSubject(SubjectDTO subjectDTO) {
         if (subjectDTO != null) {
 
@@ -240,6 +277,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Send given item to client in formatted format.
+     * @param lecturerDTO The lecturer to extract information from
+     */
     private void sendLecturer(LecturerDTO lecturerDTO) {
         if (lecturerDTO != null) {
             List<SubjectDTO> subjects = new ArrayList<>();
@@ -276,6 +317,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Send usage for a specific command.
+     * @param cmd The command to send usage for
+     */
     private void sendUsage(String cmd) {
         switch (cmd) {
             case "list":
@@ -287,6 +332,11 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Send help page for a given command.
+     * If no command is given, send a list of commands.
+     * @param cmd Command to find the man page for.
+     */
     private void sendHelp(String... cmd) {
         if (cmd.length > 0) {
             switch (cmd[0]) {
@@ -322,6 +372,7 @@ public class ClientThread implements Runnable {
             sendMsgToClient("@|magenta For more information, type \"help <cmd>\".|@");
             sendMsgToClient("@|red search|@");
             sendMsgToClient("@|red list|@");
+            sendMsgToClient("@|red exit|@");
         }
     }
     //endregion

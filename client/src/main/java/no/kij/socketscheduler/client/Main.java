@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * This is the client that is meant to connect to the server.
+ * It accepts input from the user and sends it to the server, then listens to incoming messages
+ * from the server.
+ */
 public class Main {
     private final int PORT = 8432;
     private final String END_TRANSMISSION = "END_TRANSMISSION";
@@ -18,19 +23,20 @@ public class Main {
     private Scanner scanner;
     private boolean running;
 
+    /**
+     * Entry point for the program.
+     * It creates an instance of itself and start the client.
+     */
     public static void main(String[] args) {
         AnsiConsole.systemInstall();
         Main main = new Main();
         main.startClient();
-
-        System.out.println(String.format("%-25s %s",
-                "Name", "Subject"));
-        System.out.println(String.format("%-25s %s",
-                "Praskovya Pokrovskaya", "Avansert Javaprogrammering"));
     }
 
-
-
+    /**
+     * This method opens a connection to the server and constantly listens for a message from the server,
+     * as well as sends messages to the server until connection is ended.
+     */
     private void startClient() {
         System.out.println("Attempting to open connection...");
         try {
@@ -44,7 +50,6 @@ public class Main {
             while (running) {
                 receiveMsgFromServer();
                 if (running) {
-                    System.out.println(">>> ");
                     sendMsgToServer(scanner.nextLine());
                 }
             }
@@ -57,6 +62,10 @@ public class Main {
         }
     }
 
+    /**
+     * Sends a message to the server and flushes the stream.
+     * @param msg Message to be sent to server
+     */
     private void sendMsgToServer(String msg) {
         try {
             outputStream.writeUTF(msg);
@@ -67,6 +76,11 @@ public class Main {
         }
     }
 
+    /**
+     * Receives a message from the server,
+     * if its told to terminate by the server,
+     * it relays the message to terminate to the client.
+     */
     private void receiveMsgFromServer() {
         try {
             String msg;
@@ -86,6 +100,9 @@ public class Main {
         }
     }
 
+    /**
+     * Opens the necessary streams to communicate with the sever.
+     */
     private void openStreams() {
         try {
             outputStream = new DataOutputStream(server.getOutputStream());

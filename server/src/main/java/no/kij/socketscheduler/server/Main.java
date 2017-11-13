@@ -31,6 +31,9 @@ public class Main {
         main.startServer();
     }
 
+    /**
+     * Start the server and listens to commands from the client.
+     */
     public void startServer() {
         Properties creds = ResourceFetcher.getProperty("credentials");
         connectionManager = new ConnectionManager(creds);
@@ -38,6 +41,7 @@ public class Main {
         dbIn.initializeTables();
         dbIn.initializeTableContent();
 
+        // open server socket and start listening for connections
         System.out.println(ansi().render("@|bold,green Server started!|@"));
         try {
             ServerSocket server = new ServerSocket(PORT);
@@ -48,6 +52,13 @@ public class Main {
         }
     }
 
+    /**
+     * Listens to connections from clients constantly,
+     * and open the client connection in a new thread.
+     *
+     * @param server Socket to listen from.
+     * @throws IOException If something goes wrong with the I/O
+     */
     private void attemptClientConnection(ServerSocket server) throws IOException {
         int client = 0;
         while (true) {

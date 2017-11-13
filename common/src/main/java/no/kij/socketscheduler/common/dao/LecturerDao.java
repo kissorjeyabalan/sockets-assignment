@@ -12,5 +12,6 @@ import java.util.List;
  */
 public interface LecturerDao extends Dao<LecturerDTO, Integer> {
     LecturerDTO queryForLecturerName(String name);
+    LecturerDTO queryForPartialName(String partialName);
     LecturerDTO queryForExactOrPartialName(String name);
 }

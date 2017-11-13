@@ -21,35 +21,50 @@ public class LecturerDaoImpl extends BaseDaoImpl<LecturerDTO, Integer> implement
     /**
      * Find a lecturer by name
      * @param name Name to search for
-     * @return LecturerDTO if found
+     * @return LecturerDTO if found, null if not
      * @throws SQLException If something goes wrong while querying for the given name
      */
     public LecturerDTO queryForLecturerName(String name) {
+        LecturerDTO lecturerDTO = null;
         try {
             QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
             queryBuilder.where().eq(LecturerDTO.LECTURER_NAME_FIELD, name);
             PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
-            return queryForFirst(preparedQuery);
+            lecturerDTO = queryForFirst(preparedQuery);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return null;
         }
+        return null;
     }
 
-    public LecturerDTO queryForExactOrPartialName(String name) {
-        LecturerDTO lecturerDTO = queryForLecturerName(name);
-        if (lecturerDTO == null) {
-            try {
-                QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
-                queryBuilder.where().like(LecturerDTO.LECTURER_NAME_FIELD, "%" + name + "%");
-                PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
-                lecturerDTO = queryForFirst(preparedQuery);
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-            }
+    /**
+     * Find a lecturer using a partial name
+     * @param partialName The partial name to be found
+     * @return LecturerDTO containing the lecturer, returns null if not found
+     */
+    public LecturerDTO queryForPartialName(String partialName) {
+        LecturerDTO lecturerDTO = null;
+        try {
+            QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
+            queryBuilder.where().like(LecturerDTO.LECTURER_NAME_FIELD, "%" + partialName + "%");
+            PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
+            lecturerDTO = queryForFirst(preparedQuery);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
         return lecturerDTO;
     }
 
-
+    /**
+     * Searches both for an exact match and a partial match, if exact is not found.
+     * @param name Name of the lecturer to find
+     * @return LecturerDTO if found, null if not
+     */
+    public LecturerDTO queryForExactOrPartialName(String name) {
+        LecturerDTO lecturerDTO = queryForLecturerName(name);
+        if (lecturerDTO == null) {
+            lecturerDTO = queryForPartialName(name);
+        }
+        return lecturerDTO;
+    }
 }

@@ -14,4 +14,7 @@ public interface SubjectDao extends Dao<SubjectDTO, Integer> {
     List<LecturerDTO> findLecturersForSubject(SubjectDTO subjectDTO) throws SQLException;
     List<SubjectDTO> findSubjectsForLecturer(LecturerDTO lecturerDTO) throws SQLException;
     SubjectDTO updateSubject(SubjectDTO subjectDTO) throws SQLException;
+    SubjectDTO findSubjectByCode(String subjectCode);
+    SubjectDTO findSubjectByName(String subjectName);
+    SubjectDTO findSubjectByCodeOrName(String subject);
 }

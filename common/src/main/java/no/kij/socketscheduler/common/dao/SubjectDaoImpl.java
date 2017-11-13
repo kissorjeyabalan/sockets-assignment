@@ -27,6 +27,68 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         lecturerDao = DaoManager.createDao(connectionSource, LecturerDTO.class);
     }
 
+    /**
+     * Find a subject using its short code.
+     * It then queries for the name if a match was not found.
+     * @param subject The subject name or code to query for
+     * @return SubjectDTO if found, null if not
+     */
+    public SubjectDTO findSubjectByCodeOrName(String subject) {
+        SubjectDTO subjectDTO = findSubjectByCode(subject);
+        if (subjectDTO == null) {
+            subjectDTO = findSubjectByName(subject);
+        }
+        return subjectDTO;
+    }
+
+    /**
+     * Find a subject using a partial name
+     * @param subjectName The full or partial name to query for
+     * @return SubjectDTO if found, null if not
+     */
+    public SubjectDTO findSubjectByName(String subjectName) {
+        SubjectDTO subjectDTO = null;
+        try {
+            QueryBuilder<SubjectDTO, Integer> queryBuilder = queryBuilder();
+            queryBuilder.where().like(SubjectDTO.NAME_FIELD, "%"+subjectName+"%");
+            PreparedQuery<SubjectDTO> preparedQuery = queryBuilder.prepare();
+            subjectDTO = queryForFirst(preparedQuery);
+            if (subjectDTO != null) {
+                subjectDTO.setLecturers(findLecturersForSubject(subjectDTO));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return subjectDTO;
+    }
+
+    /**
+     * Find a subject by code
+     * @param subjectCode Subject code to search for
+     * @return SubjectDTO if found, null if not
+     */
+    public SubjectDTO findSubjectByCode(String subjectCode) {
+        SubjectDTO subjectDTO = null;
+        try {
+            QueryBuilder<SubjectDTO, Integer> queryBuilder = queryBuilder();
+            queryBuilder.where().eq(SubjectDTO.SHORT_CODE_FIELD, subjectCode);
+            PreparedQuery<SubjectDTO> preparedQuery = queryBuilder.prepare();
+            subjectDTO = queryForFirst(preparedQuery);
+            if (subjectDTO != null) {
+                subjectDTO.setLecturers(findLecturersForSubject(subjectDTO));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return subjectDTO;
+    }
+
+    /**
+     * Find a subject by its ID in the database.
+     * @param integer ID to search for
+     * @return SubjectDTO if found, null if not
+     * @throws SQLException
+     */
     @Override
     public SubjectDTO queryForId(Integer integer) throws SQLException {
         SubjectDTO subject = super.queryForId(integer);
@@ -34,6 +96,11 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return subject;
     }
 
+    /**
+     * Fetch a list of all subjects in the database.
+     * @return List containing SubjectDTO
+     * @throws SQLException If something goes wrong with the query
+     */
     @Override
     public List<SubjectDTO> queryForAll() throws SQLException {
         List<SubjectDTO> subjectDTOs = super.queryForAll();
@@ -81,7 +148,7 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
     }
 
     /**
-     * Returns a list of all lecturers for the given subject
+     * Returns a list of all lecturers for the given subject.
      * @param data Subject to find lecturers for
      * @return List containing LecturerDTO
      * @throws SQLException If something goes wrong while querying
@@ -90,6 +157,12 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return lookupLecturersForSubject(data);
     }
 
+    /**
+     * Returns a list of all subjects for a given lecturer.
+     * @param data Lecturer to find subjects for
+     * @return List containing SubjectDTO
+     * @throws SQLException If something goes wrong while querying
+     */
     public List<SubjectDTO> findSubjectsForLecturer(LecturerDTO data) throws SQLException {
         return lookupSubjectsForLecturer(data);
     }
@@ -107,6 +180,12 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return lecturerDao.query(lecturersForSubjectQuery);
     }
 
+    /**
+     * The private implementation for finding the subjects for the lecturer.
+     * @param data Lecturer to find subjects for
+     * @return List of subject for said lecturer
+     * @throws SQLException If something goes wrong while querying
+     */
     private List<SubjectDTO> lookupSubjectsForLecturer(LecturerDTO data) throws SQLException {
         PreparedQuery<SubjectDTO> subjectsForLecturerQuery = makeSubjectForLecturerQuery();
         subjectsForLecturerQuery.setArgumentHolderValue(0, data);

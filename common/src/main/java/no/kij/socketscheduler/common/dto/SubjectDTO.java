@@ -12,11 +12,14 @@ import java.util.List;
  */
 @DatabaseTable(tableName = "subjects", daoClass = SubjectDaoImpl.class)
 public class SubjectDTO {
+    public static final String SHORT_CODE_FIELD = "code";
+    public static final String NAME_FIELD = "name";
+
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = SHORT_CODE_FIELD)
     private String shortName;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = NAME_FIELD)
     private String name;
     @DatabaseField(defaultValue = "0")
     private Integer enrolled;
