@@ -24,12 +24,32 @@ public class LecturerDaoImpl extends BaseDaoImpl<LecturerDTO, Integer> implement
      * @return LecturerDTO if found
      * @throws SQLException If something goes wrong while querying for the given name
      */
-    @Override
-    public LecturerDTO queryForLecturerName(String name) throws SQLException {
-        QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
-        queryBuilder.where().eq(LecturerDTO.LECTURER_NAME_FIELD, name);
-        PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
-        return queryForFirst(preparedQuery);
+    public LecturerDTO queryForLecturerName(String name) {
+        try {
+            QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
+            queryBuilder.where().eq(LecturerDTO.LECTURER_NAME_FIELD, name);
+            PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
+            return queryForFirst(preparedQuery);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
     }
+
+    public LecturerDTO queryForExactOrPartialName(String name) {
+        LecturerDTO lecturerDTO = queryForLecturerName(name);
+        if (lecturerDTO == null) {
+            try {
+                QueryBuilder<LecturerDTO, Integer> queryBuilder = queryBuilder();
+                queryBuilder.where().like(LecturerDTO.LECTURER_NAME_FIELD, "%" + name + "%");
+                PreparedQuery<LecturerDTO> preparedQuery = queryBuilder.prepare();
+                lecturerDTO = queryForFirst(preparedQuery);
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        return lecturerDTO;
+    }
+
 
 }

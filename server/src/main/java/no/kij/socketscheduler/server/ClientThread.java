@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -142,6 +143,25 @@ public class ClientThread implements Runnable {
         sendMsgToClient(END_TRANSMISSION);
     }
 
+    private void search(List<String> args) {
+        switch(args.get(0)) {
+            case "lecturer":
+                // remove case and join the remanining items
+                args.remove(0);
+                String lecturerName = args.stream().collect(Collectors.joining(" "));
+                LecturerDTO lecturerDTO = dao.getLecturerDao().queryForExactOrPartialName(lecturerName);
+                sendTableHeader("lecturer");
+                if (lecturerDTO != null) {
+                    sendLecturer(lecturerDTO);
+                } else {
+                    sendMsgToClient("No result was found.");
+                }
+                sendMsgToClient(END_TRANSMISSION);
+                break;
+        }
+    }
+
+
     private void listAll(String arg) {
         try {
             switch (arg) {
@@ -172,7 +192,7 @@ public class ClientThread implements Runnable {
     }
     //endregion
 
-    //region Commmand Helpers
+    //region Senders
     private void sendTableHeader(String header) {
         switch (header) {
             case "lecturer":
