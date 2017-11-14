@@ -1,12 +1,12 @@
-package no.kij.socketscheduler.server.db;
+package no.kij.socketscheduler.server.util;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import no.kij.socketscheduler.common.dao.SubjectDao;
-import no.kij.socketscheduler.common.dao.SubjectDaoImpl;
-import no.kij.socketscheduler.common.dao.LecturerDao;
-import no.kij.socketscheduler.common.dao.LecturerDaoImpl;
-import no.kij.socketscheduler.common.dto.SubjectLecturerDTO;
+import no.kij.socketscheduler.server.dao.SubjectDao;
+import no.kij.socketscheduler.server.dao.SubjectDaoImpl;
+import no.kij.socketscheduler.server.dao.LecturerDao;
+import no.kij.socketscheduler.server.dao.LecturerDaoImpl;
+import no.kij.socketscheduler.server.dto.SubjectLecturerDTO;
 
 import java.sql.SQLException;
 

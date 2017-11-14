@@ -2,12 +2,14 @@ package no.kij.socketscheduler.server.db;
 
 import com.google.gson.*;
 import com.j256.ormlite.table.TableUtils;
-import no.kij.socketscheduler.common.dao.LecturerDao;
-import no.kij.socketscheduler.common.dao.SubjectDao;
-import no.kij.socketscheduler.common.dto.LecturerDTO;
-import no.kij.socketscheduler.common.dto.SubjectDTO;
-import no.kij.socketscheduler.common.dto.SubjectLecturerDTO;
-import no.kij.socketscheduler.common.util.ResourceFetcher;
+import no.kij.socketscheduler.server.dao.LecturerDao;
+import no.kij.socketscheduler.server.dao.SubjectDao;
+import no.kij.socketscheduler.server.dto.LecturerDTO;
+import no.kij.socketscheduler.server.dto.SubjectDTO;
+import no.kij.socketscheduler.server.dto.SubjectLecturerDTO;
+import no.kij.socketscheduler.server.util.ConnectionManager;
+import no.kij.socketscheduler.server.util.DaoDelegator;
+import no.kij.socketscheduler.server.util.ResourceFetcher;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,11 +34,6 @@ public class DatabaseInitializer {
      */
     public void initializeTables() {
         try {
-            // drop the existing tables (since we are not checking if the tables already exist.
-            TableUtils.dropTable(connectionManager.getConnectionSource(), SubjectDTO.class, false);
-            TableUtils.dropTable(connectionManager.getConnectionSource(), LecturerDTO.class, false);
-            TableUtils.dropTable(connectionManager.getConnectionSource(), SubjectLecturerDTO.class, false);
-
             // create the tables
             TableUtils.createTableIfNotExists(connectionManager.getConnectionSource(), SubjectDTO.class);
             TableUtils.createTableIfNotExists(connectionManager.getConnectionSource(), LecturerDTO.class);

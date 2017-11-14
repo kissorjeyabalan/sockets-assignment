@@ -5,10 +5,10 @@
     "enrolled": 65,
     "lecturers": [
       {
-        "name": "Felicjan Pawłowski"
+        "name": "Alexander Melby"
       },
       {
-        "name": "Praskovya Pokrovskaya"
+        "name": "Vilde Birkenes"
       }
     ]
   },
@@ -23,7 +23,7 @@
     "shortName": "PG3300",
     "enrolled": 97,
     "lecturers": [{
-      "name": "Nisrin Ismah Maroun"
+      "name": "Lilly Evensen"
     }]
   }
 ]

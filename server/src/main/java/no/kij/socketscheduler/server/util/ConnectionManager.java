@@ -1,4 +1,4 @@
-package no.kij.socketscheduler.server.db;
+package no.kij.socketscheduler.server.util;
 
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -58,11 +58,15 @@ public class ConnectionManager {
     private void openPooledConnection() {
         if (connectionSource == null) {
             try {
-                connectionSource = new JdbcPooledConnectionSource(
-                        credentials.getProperty("database_url"),
-                        credentials.getProperty("username"),
-                        credentials.getProperty("password")
-                );
+                if (credentials.containsKey("username") && credentials.containsKey("password")) {
+                    connectionSource = new JdbcPooledConnectionSource(
+                            credentials.getProperty("database_url"),
+                            credentials.getProperty("username"),
+                            credentials.getProperty("password")
+                    );
+                } else {
+                    connectionSource = new JdbcPooledConnectionSource(credentials.getProperty("database_url"));
+                }
             } catch (SQLException e) {
                 System.err.println("Couldn't open Pooled Connection");
                 System.err.println(e.getMessage());

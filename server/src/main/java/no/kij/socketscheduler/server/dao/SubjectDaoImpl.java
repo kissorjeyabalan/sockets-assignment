@@ -1,4 +1,4 @@
-package no.kij.socketscheduler.common.dao;
+package no.kij.socketscheduler.server.dao;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
@@ -7,9 +7,9 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 import com.j256.ormlite.support.ConnectionSource;
-import no.kij.socketscheduler.common.dto.LecturerDTO;
-import no.kij.socketscheduler.common.dto.SubjectDTO;
-import no.kij.socketscheduler.common.dto.SubjectLecturerDTO;
+import no.kij.socketscheduler.server.dto.LecturerDTO;
+import no.kij.socketscheduler.server.dto.SubjectDTO;
+import no.kij.socketscheduler.server.dto.SubjectLecturerDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -92,7 +92,9 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
     @Override
     public SubjectDTO queryForId(Integer integer) throws SQLException {
         SubjectDTO subject = super.queryForId(integer);
-        subject.setLecturers(findLecturersForSubject(subject));
+        if (subject != null) {
+            subject.setLecturers(findLecturersForSubject(subject));
+        }
         return subject;
     }
 
@@ -136,6 +138,7 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
      * @throws SQLException IF something goes wrong
      */
     public SubjectDTO updateSubject(SubjectDTO data) throws SQLException {
+        super.createOrUpdate(data);
         for (LecturerDTO lecturerDTO : data.getLecturers()) {
             lecturerDao.createOrUpdate(lecturerDTO);
             SubjectLecturerDTO sld = new SubjectLecturerDTO();
@@ -157,16 +160,6 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         return lookupLecturersForSubject(data);
     }
 
-    /**
-     * Returns a list of all subjects for a given lecturer.
-     * @param data Lecturer to find subjects for
-     * @return List containing SubjectDTO
-     * @throws SQLException If something goes wrong while querying
-     */
-    public List<SubjectDTO> findSubjectsForLecturer(LecturerDTO data) throws SQLException {
-        return lookupSubjectsForLecturer(data);
-    }
-
 
     /**
      * The private implementation for finding the lecturers for the subject.
@@ -178,33 +171,6 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
         PreparedQuery<LecturerDTO> lecturersForSubjectQuery = makeLecturerForSubjectQuery();
         lecturersForSubjectQuery.setArgumentHolderValue(0, data);
         return lecturerDao.query(lecturersForSubjectQuery);
-    }
-
-    /**
-     * The private implementation for finding the subjects for the lecturer.
-     * @param data Lecturer to find subjects for
-     * @return List of subject for said lecturer
-     * @throws SQLException If something goes wrong while querying
-     */
-    private List<SubjectDTO> lookupSubjectsForLecturer(LecturerDTO data) throws SQLException {
-        PreparedQuery<SubjectDTO> subjectsForLecturerQuery = makeSubjectForLecturerQuery();
-        subjectsForLecturerQuery.setArgumentHolderValue(0, data);
-        return query(subjectsForLecturerQuery);
-    }
-
-
-
-    private PreparedQuery<SubjectDTO> makeSubjectForLecturerQuery() throws SQLException {
-        QueryBuilder<SubjectLecturerDTO, Integer> subLecQb = subjectLecturerDao.queryBuilder();
-
-        subLecQb.selectColumns(SubjectLecturerDTO.SUBJECT_ID_FIELD);
-        SelectArg subjectSelectArg = new SelectArg();
-
-        subLecQb.where().eq(SubjectLecturerDTO.LECTURER_ID_FIELD, subjectSelectArg);
-
-        QueryBuilder<SubjectDTO, Integer> subjectQb = queryBuilder();
-        subjectQb.where().in(SubjectLecturerDTO.ID_FIELD, subLecQb);
-        return subjectQb.prepare();
     }
 
     /**

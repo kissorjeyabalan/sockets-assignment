@@ -66,7 +66,7 @@ public class Main {
      * Sends a message to the server and flushes the stream.
      * @param msg Message to be sent to server
      */
-    private void sendMsgToServer(String msg) {
+    public void sendMsgToServer(String msg) {
         try {
             outputStream.writeUTF(msg);
             outputStream.flush();
@@ -81,7 +81,7 @@ public class Main {
      * if its told to terminate by the server,
      * it relays the message to terminate to the client.
      */
-    private void receiveMsgFromServer() {
+    public void receiveMsgFromServer() {
         try {
             String msg;
             do {

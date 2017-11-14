@@ -1,9 +1,9 @@
 package no.kij.socketscheduler.server;
 
-import no.kij.socketscheduler.common.dto.LecturerDTO;
-import no.kij.socketscheduler.common.dto.SubjectDTO;
-import no.kij.socketscheduler.server.db.ConnectionManager;
-import no.kij.socketscheduler.server.db.DaoDelegator;
+import no.kij.socketscheduler.server.dto.LecturerDTO;
+import no.kij.socketscheduler.server.dto.SubjectDTO;
+import no.kij.socketscheduler.server.util.ConnectionManager;
+import no.kij.socketscheduler.server.util.DaoDelegator;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -285,7 +285,7 @@ public class ClientThread implements Runnable {
         if (lecturerDTO != null) {
             List<SubjectDTO> subjects = new ArrayList<>();
             try {
-                subjects = dao.getSubjectDao().findSubjectsForLecturer(lecturerDTO);
+                subjects = dao.getLecturerDao().findSubjectsForLecturer(lecturerDTO);
             } catch (SQLException e) {
                 System.err.println("Query failed.");
                 System.err.println(e.getMessage());

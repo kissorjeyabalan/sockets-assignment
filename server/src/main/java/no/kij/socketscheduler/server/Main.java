@@ -1,8 +1,8 @@
 package no.kij.socketscheduler.server;
 
 import com.j256.ormlite.logger.LocalLog;
-import no.kij.socketscheduler.common.util.ResourceFetcher;
-import no.kij.socketscheduler.server.db.ConnectionManager;
+import no.kij.socketscheduler.server.util.ResourceFetcher;
+import no.kij.socketscheduler.server.util.ConnectionManager;
 import no.kij.socketscheduler.server.db.DatabaseInitializer;
 import org.fusesource.jansi.AnsiConsole;
 

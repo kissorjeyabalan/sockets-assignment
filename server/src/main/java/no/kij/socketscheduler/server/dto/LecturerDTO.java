@@ -1,8 +1,8 @@
-package no.kij.socketscheduler.common.dto;
+package no.kij.socketscheduler.server.dto;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import no.kij.socketscheduler.common.dao.LecturerDaoImpl;
+import no.kij.socketscheduler.server.dao.LecturerDaoImpl;
 
 /**
  * This class is the data transfer object for the lecturers.
