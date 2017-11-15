@@ -21,24 +21,8 @@ public class SubjectLecturerDTO {
 
     public SubjectLecturerDTO() {}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public SubjectDTO getSubjectDTO() {
-        return subjectDTO;
-    }
-
     public void setSubjectDTO(SubjectDTO subjectDTO) {
         this.subjectDTO = subjectDTO;
-    }
-
-    public LecturerDTO getLecturerDTO() {
-        return lecturerDTO;
     }
 
     public void setLecturerDTO(LecturerDTO lecturerDTO) {

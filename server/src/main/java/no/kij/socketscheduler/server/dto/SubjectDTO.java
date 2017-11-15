@@ -31,10 +31,6 @@ public class SubjectDTO {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getShortName() {
         return shortName;
     }
