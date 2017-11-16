@@ -34,6 +34,12 @@ public class DatabaseInitializer {
      */
     public void initializeTables() {
         try {
+            // dropping tables if they already exist, since we are not checking for first time run
+            // and we dont want multiples of same values in db
+            TableUtils.dropTable(connectionManager.getConnectionSource(), SubjectDTO.class, true);
+            TableUtils.dropTable(connectionManager.getConnectionSource(), LecturerDTO.class, true);
+            TableUtils.dropTable(connectionManager.getConnectionSource(), SubjectLecturerDTO.class, true);
+
             // create the tables
             TableUtils.createTableIfNotExists(connectionManager.getConnectionSource(), SubjectDTO.class);
             TableUtils.createTableIfNotExists(connectionManager.getConnectionSource(), LecturerDTO.class);
