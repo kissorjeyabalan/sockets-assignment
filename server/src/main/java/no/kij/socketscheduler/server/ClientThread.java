@@ -1,5 +1,8 @@
 package no.kij.socketscheduler.server;
 
+import no.kij.socketscheduler.server.cmd.CommandDetails;
+import no.kij.socketscheduler.server.cmd.CommandParser;
+import no.kij.socketscheduler.server.cmd.CommandType;
 import no.kij.socketscheduler.server.dto.LecturerDTO;
 import no.kij.socketscheduler.server.dto.SubjectDTO;
 import no.kij.socketscheduler.server.util.ConnectionManager;

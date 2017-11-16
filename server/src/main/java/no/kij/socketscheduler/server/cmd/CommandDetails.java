@@ -1,4 +1,4 @@
-package no.kij.socketscheduler.server;
+package no.kij.socketscheduler.server.cmd;
 
 import java.util.List;
 
