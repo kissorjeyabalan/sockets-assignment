@@ -1,5 +1,8 @@
 package no.kij.socketscheduler.server;
 
+import no.kij.socketscheduler.server.cmd.CommandDetails;
+import no.kij.socketscheduler.server.cmd.CommandParser;
+import no.kij.socketscheduler.server.cmd.CommandType;
 import no.kij.socketscheduler.server.dto.LecturerDTO;
 import no.kij.socketscheduler.server.dto.SubjectDTO;
 import no.kij.socketscheduler.server.util.ConnectionManager;
@@ -25,6 +28,7 @@ public class ClientThread implements Runnable {
     //region Properties
     private final String END_TRANSMISSION = "END_TRANSMISSION";
     private final String END_CONNECTION = "END_CONNECTION";
+    private CommandParser cmdParser;
     private Socket clientSocket;
     private DaoDelegator dao;
     private DataOutputStream outputStream;
@@ -43,15 +47,17 @@ public class ClientThread implements Runnable {
     //region Listener
     @Override
     public void run() {
+        running = true;
+        cmdParser = new CommandParser();
+
         String msg = "@|green You have been successfully connected to the Scheduler Database.\n" +
                 "To search the database, type \"search (lecturer|subject) <search term>\"|@\n";
         sendMsgToClient(msg);
         sendMsgToClient(END_TRANSMISSION);
-        running = true;
 
         while (running) {
             msg = receiveMsgFromClient();
-            findCmd(msg);
+            runCmd(msg);
         }
     }
     //endregion
@@ -111,128 +117,122 @@ public class ClientThread implements Runnable {
 
     //region Command Management
 
-    /**
-     * Find the correct command from given input.
-     * @param input String including all parts of the command
-     */
-    private void findCmd(String input) {
-        String[] splitInput = input.toLowerCase().split(" ");
-        if (splitInput.length > 0) {
-            switch (splitInput[0]) {
-                case "list":
-                    if (splitInput.length > 1) {
-                        listAll(splitInput[1]);
-                    } else {
-                        sendUsage("list");
-                    }
+
+
+    private void runCmd(String input) {
+        CommandDetails cmd = cmdParser.parse(input);
+        if (cmd != null) {
+            switch (cmd.getAction()) {
+                case LIST:
+                    listAll(cmd.getType());
                     break;
-                case "search":
-                    if (splitInput.length > 2) {
-                        List<String> refinedInput = new ArrayList<>();
-                        for (int i = 1; i < splitInput.length; i++) {
-                            refinedInput.add(splitInput[i]);
-                        }
-                        search(refinedInput);
-                    } else {
-                        sendUsage("search");
-                    }
+                case SEARCH:
+                    search(cmd);
                     break;
-                case "help":
-                    if (splitInput.length > 1) {
-                        sendHelp(splitInput[1]);
-                    } else {
-                        sendHelp();
-                    }
+                case SEND_HELP:
+                    sendHelp(cmd);
                     break;
-                case "exit":
-                    running = false;
-                    sendMsgToClient("Goodbye.");
-                    sendMsgToClient(END_CONNECTION);
-                    closeStreams();
+                case SEND_USAGE:
+                    sendUsage(cmd.getType());
                     break;
             }
         }
         sendMsgToClient(END_TRANSMISSION);
     }
 
-    /**
-     * Search a single item
-     * @param args List containing the item to search for and values for said item
-     */
-    private void search(List<String> args) {
-        switch(args.get(0)) {
-            case "lecturer":
-                // remove case and join the remanining items
-                args.remove(0);
-                String lecturerName = args.stream().collect(Collectors.joining(" "));
-                LecturerDTO lecturerDTO = dao.getLecturerDao().queryForExactOrPartialName(lecturerName);
-                sendTableHeader("lecturer");
-                if (lecturerDTO != null) {
-                    sendLecturer(lecturerDTO);
-                } else {
-                    sendMsgToClient("No result was found.");
-                }
+
+    private void listAll(CommandType type) {
+        switch (type) {
+            case LECTURER:
+                listLecturer();
                 break;
-            case "subject":
-                args.remove(0);
-                String subjectName = args.stream().collect(Collectors.joining(" "));
-                SubjectDTO subjectDTO = dao.getSubjectDao().findSubjectByCodeOrName(subjectName);
-                sendTableHeader("subject");
-                if (subjectDTO != null) {
-                    sendSubject(subjectDTO);
-                } else {
-                    sendMsgToClient("No result was found.");
-                }
+            case SUBJECT:
+                listSubject();
+                break;
+            default:
+                sendUsage(CommandType.LIST);
                 break;
         }
     }
 
-    /**
-     * Send all of the requested item to the client.
-     * @param arg The type of item to search for
-     */
-    private void listAll(String arg) {
+    private void listLecturer() {
         try {
-            switch (arg) {
-                case "lecturer":
-                    List<LecturerDTO> lecturerDTOs = dao.getLecturerDao().queryForAll();
-                    sendTableHeader("lecturer");
-                    for (LecturerDTO lecturerDTO : lecturerDTOs) {
-                        sendLecturer(lecturerDTO);
-                    }
-                    sendMsgToClient("");
-                    break;
-                case "subject":
-                    List<SubjectDTO> subjectDTOs = dao.getSubjectDao().queryForAll();
-                    sendTableHeader("subject");
-                    for (SubjectDTO subjectDTO : subjectDTOs) {
-                        sendSubject(subjectDTO);
-                    }
-                    sendMsgToClient("");
-                    break;
+            List<LecturerDTO> lecturerDTOS = dao.getLecturerDao().queryForAll();
+            sendTableHeader(CommandType.LECTURER);
+            for (LecturerDTO lecturerDTO : lecturerDTOS) {
+                sendLecturer(lecturerDTO);
             }
         } catch (SQLException e) {
-            System.err.println("Couldn't fetch lecturers.");
             System.err.println(e.getMessage());
             sendMsgToClient("Failed to retrieve list of lecturers.");
-            sendMsgToClient(END_TRANSMISSION);
         }
     }
+
+    private void listSubject() {
+        try {
+            List<SubjectDTO> subjectDTOS = dao.getSubjectDao().queryForAll();
+            sendTableHeader(CommandType.SUBJECT);
+            for (SubjectDTO subjectDTO : subjectDTOS) {
+                sendSubject(subjectDTO);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            sendMsgToClient("Failed to retrieve list of subjects.");
+        }
+    }
+
+
+
+    private void search(CommandDetails cmd) {
+        String argsAsString = cmd.getArgs().stream().collect(Collectors.joining(" "));
+        switch (cmd.getType()) {
+            case LECTURER:
+                searchLecturer(argsAsString);
+                break;
+            case SUBJECT:
+                searchSubject(argsAsString);
+                break;
+            default:
+                sendUsage(CommandType.SEARCH);
+                break;
+        }
+    }
+
+    private void searchLecturer(String lecturer) {
+        LecturerDTO lecturerDTO = dao.getLecturerDao().queryForExactOrPartialName(lecturer);
+        sendTableHeader(CommandType.LECTURER);
+        if (lecturerDTO != null) {
+            sendLecturer(lecturerDTO);
+        } else {
+            sendMsgToClient("No result was found.");
+        }
+    }
+
+    private void searchSubject(String subject) {
+        SubjectDTO subjectDTO = dao.getSubjectDao().findSubjectByCodeOrName(subject);
+        sendTableHeader(CommandType.SUBJECT);
+        if (subjectDTO != null) {
+            sendSubject(subjectDTO);
+        } else {
+            sendMsgToClient("No result was found.");
+        }
+    }
+
     //endregion
 
     //region Senders
 
     /**
      * Used to send the table header for a specific type of item.
-     * @param header
+     * @param type The type to send usage for
      */
-    private void sendTableHeader(String header) {
-        switch (header) {
-            case "lecturer":
+    private void sendTableHeader(CommandType type) {
+        switch (type) {
+            case LECTURER:
                 sendMsgToClient("@|bold,cyan " + String.format("%-25s %s", "Name", "Subject" + "|@"));
                 sendMsgToClient("@|cyan -------------------------------- |@");
                 break;
-            case "subject":
+            case SUBJECT:
                 sendMsgToClient("@|bold,cyan " +
                         String.format("%-30s %-10s %-10s %s", "Subject", "Code", "Enrolled", "Lecturer(s)|@"));
                 sendMsgToClient("@|cyan ----------------------------------------------------------------------------- |@");
@@ -319,61 +319,59 @@ public class ClientThread implements Runnable {
 
     /**
      * Send usage for a specific command.
-     * @param cmd The command to send usage for
+     * @param type The command to send usage for
      */
-    private void sendUsage(String cmd) {
-        switch (cmd) {
-            case "list":
+    private void sendUsage(CommandType type) {
+        switch (type) {
+            case LIST:
                 sendMsgToClient("@|bold,blue Usage:|@ @|blue list lecturer|subject|@");
                 break;
-            case "search":
+            case SEARCH:
                 sendMsgToClient("@|bold,blue Usage:|@ @|blue search (lecturer|subject|room) <search term>|@");
                 break;
         }
     }
 
-    /**
-     * Send help page for a given command.
-     * If no command is given, send a list of commands.
-     * @param cmd Command to find the man page for.
-     */
-    private void sendHelp(String... cmd) {
-        if (cmd.length > 0) {
-            switch (cmd[0]) {
-                case "search":
-                    sendMsgToClient("@|bold,cyan Search:|@");
-                    sendMsgToClient("@|cyan -------------------------------|@");
-                    sendUsage("search");
-                    sendMsgToClient("The search command is used to find information.");
-                    sendMsgToClient("You can use search with lecturer name or subject code.");
-                    sendMsgToClient("@|bold,magenta Usage examples:|@");
-                    sendMsgToClient("search lecturer Praskovya Pokrovskaya");
-                    sendMsgToClient("search subject PGR200");
-                    sendMsgToClient("@|cyan -------------------------------|@\n");
-                    break;
-                case "list":
-                    sendMsgToClient("@|bold,cyan List:|@");
-                    sendMsgToClient("@|cyan -------------------------------|@");
-                    sendUsage("list");
-                    sendMsgToClient("The list command is used to list everything about a single item.");
-                    sendMsgToClient("You can use it to view all lecturers, subjects or rooms.");
-                    sendMsgToClient("@|bold,magenta Usage examples:|@");
-                    sendMsgToClient("list lecturer");
-                    sendMsgToClient("@|cyan -------------------------------|@");
-                    break;
-                default:
-                    sendMsgToClient("@|red The command '" + cmd[0] + "' does not exist.|@\n");
-                    break;
-            }
-        } else {
-            sendMsgToClient("@|bold,cyan Help:|@");
-            sendMsgToClient("@|cyan ----------------------------|@");
-            sendMsgToClient("@|magenta The following commands are available.|@");
-            sendMsgToClient("@|magenta For more information, type \"help <cmd>\".|@");
-            sendMsgToClient("@|red search|@");
-            sendMsgToClient("@|red list|@");
-            sendMsgToClient("@|red exit|@");
+
+    private void sendHelp(CommandDetails cmd) {
+        switch (cmd.getType()) {
+            case LIST:
+                sendMsgToClient("@|bold,cyan List:|@");
+                sendMsgToClient("@|cyan -------------------------------|@");
+                sendUsage(CommandType.LIST);
+                sendMsgToClient("The list command is used to list everything about a single item.");
+                sendMsgToClient("You can use it to view all lecturers, subjects or rooms.");
+                sendMsgToClient("@|bold,magenta Usage examples:|@");
+                sendMsgToClient("list lecturer");
+                sendMsgToClient("@|cyan -------------------------------|@");
+                break;
+            case SEARCH:
+                sendMsgToClient("@|bold,cyan Search:|@");
+                sendMsgToClient("@|cyan -------------------------------|@");
+                sendUsage(CommandType.SEARCH);
+                sendMsgToClient("The search command is used to find information.");
+                sendMsgToClient("You can use search with lecturer name or subject code.");
+                sendMsgToClient("@|bold,magenta Usage examples:|@");
+                sendMsgToClient("search lecturer Praskovya Pokrovskaya");
+                sendMsgToClient("search subject PGR200");
+                sendMsgToClient("@|cyan -------------------------------|@\n");
+                break;
+            case NONE:
+                if (cmd.getArgs() != null) {
+                    sendMsgToClient("@|red The command '" + cmd.getArgs().get(0) + "' does not exist.|@\n");
+                } else {
+                    sendMsgToClient("@|bold,cyan Help:|@");
+                    sendMsgToClient("@|cyan ----------------------------|@");
+                    sendMsgToClient("@|magenta The following commands are available.|@");
+                    sendMsgToClient("@|magenta For more information, type \"help <cmd>\".|@");
+                    sendMsgToClient("@|red search|@");
+                    sendMsgToClient("@|red list|@");
+                    sendMsgToClient("@|red exit|@");
+                }
+                break;
         }
     }
+
+
     //endregion
 }

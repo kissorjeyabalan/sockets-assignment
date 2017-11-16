@@ -1,9 +1,11 @@
-package no.kij.socketscheduler.server;
+package no.kij.socketscheduler.server.cmd;
+
+import java.util.List;
 
 public class CommandDetails {
     private CommandAction action;
     private CommandType type;
-    private String[] args;
+    private List<String> args;
 
     public CommandDetails() {
         this.action = null;
@@ -11,10 +13,9 @@ public class CommandDetails {
         this.args = null;
     }
 
-    public CommandDetails(CommandAction action, CommandType type, String[] args) {
+    public CommandDetails(CommandAction action, CommandType type) {
         this.action = action;
         this.type = type;
-        this.args = args;
     }
 
     public CommandAction getAction() {
@@ -33,11 +34,15 @@ public class CommandDetails {
         this.type = type;
     }
 
-    public String[] getArgs() {
+    public List<String> getArgs() {
         return args;
     }
 
-    public void setArgs(String[] args) {
+    public void setArgs(List<String> args) {
         this.args = args;
+    }
+
+    public void addArg(String arg) {
+        this.args.add(arg);
     }
 }
