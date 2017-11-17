@@ -16,6 +16,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 /**
  * This class provides the packaged product an entrypoint,
  * allowing the server to start up and look for connections and thread them accordingly.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class Main {
     private final int PORT = 8432;

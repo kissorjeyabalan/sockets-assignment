@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * An interface for LecturerDao, declaring custom methods.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public interface LecturerDao extends Dao<LecturerDTO, Integer> {
     LecturerDTO queryForLecturerName(String name);

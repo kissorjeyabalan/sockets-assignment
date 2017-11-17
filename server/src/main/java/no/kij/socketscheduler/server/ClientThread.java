@@ -17,12 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.fusesource.jansi.Ansi.ansi;
-
 /**
  * A class used to thread incoming client connections to a new thread,
  * allowing several clients to communicate with a single server.
  * This also houses all the logic for parsing the incoming commands from the client.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class ClientThread implements Runnable {
     //region Properties
@@ -84,6 +85,7 @@ public class ClientThread implements Runnable {
         try {
             System.out.println("Closing streams and terminating thread.");
             running = false;
+            sendMsgToClient(END_CONNECTION);
             outputStream.close();
             inputStream.close();
             clientSocket.close();
@@ -94,6 +96,11 @@ public class ClientThread implements Runnable {
     //endregion
 
     //region Client Communication
+
+    /**
+     * Receive a message from the client.
+     * @return String containing the message from the client
+     */
     private String receiveMsgFromClient() {
         try {
             return inputStream.readUTF();
@@ -105,6 +112,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Send a message to the client.
+     * @param msg Message to send to the client
+     */
     private void sendMsgToClient(String msg) {
         try {
             outputStream.writeUTF(msg);
@@ -119,7 +130,11 @@ public class ClientThread implements Runnable {
     //region Command Management
 
 
-
+    /**
+     * Run the input from the client through the command parser,
+     * and run the correct function for the command.
+     * @param input String containing the command to be ran
+     */
     private void runCmd(String input) {
         CommandDetails cmd = cmdParser.parse(input);
         if (cmd != null) {
@@ -144,7 +159,11 @@ public class ClientThread implements Runnable {
         sendMsgToClient(END_TRANSMISSION);
     }
 
-
+    /**
+     * Used to determine which list command to run,
+     * based on the type.
+     * @param type CommandType to run list command for
+     */
     private void listAll(CommandType type) {
         switch (type) {
             case LECTURER:
@@ -156,6 +175,9 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Sends a list of lecturers to the client.
+     */
     private void listLecturer() {
         try {
             List<LecturerDTO> lecturerDTOS = dao.getLecturerDao().queryForAll();
@@ -169,6 +191,9 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Sends a list of subjects to the client.
+     */
     private void listSubject() {
         try {
             List<SubjectDTO> subjectDTOS = dao.getSubjectDao().queryForAll();
@@ -182,8 +207,10 @@ public class ClientThread implements Runnable {
         }
     }
 
-
-
+    /**
+     * Used to run the correct search command based on the CommandType and arguments.
+     * @param cmd CommandDetail containing type and arguments
+     */
     private void search(CommandDetails cmd) {
         String argsAsString = cmd.getArgs().stream().collect(Collectors.joining(" "));
         switch (cmd.getType()) {
@@ -196,6 +223,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Searches the database for the given lecturer and send it to the client.
+     * @param lecturer The lecturer to find
+     */
     private void searchLecturer(String lecturer) {
         LecturerDTO lecturerDTO = dao.getLecturerDao().queryForExactOrPartialName(lecturer);
         sendTableHeader(CommandType.LECTURER);
@@ -206,6 +237,10 @@ public class ClientThread implements Runnable {
         }
     }
 
+    /**
+     * Searches the database for the given subject and send it to the client.
+     * @param subject The subject to find
+     */
     private void searchSubject(String subject) {
         SubjectDTO subjectDTO = dao.getSubjectDao().findSubjectByCodeOrName(subject);
         sendTableHeader(CommandType.SUBJECT);
@@ -330,7 +365,11 @@ public class ClientThread implements Runnable {
         }
     }
 
-
+    /**
+     * Sends help content for given command.
+     *
+     * @param cmd Command to send help for
+     */
     private void sendHelp(CommandDetails cmd) {
         switch (cmd.getType()) {
             case LIST:
@@ -369,7 +408,6 @@ public class ClientThread implements Runnable {
                 break;
         }
     }
-
 
     //endregion
 }

@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * An interface for SubjectDao adding more methods.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public interface SubjectDao extends Dao<SubjectDTO, Integer> {
     List<LecturerDTO> findLecturersForSubject(SubjectDTO subjectDTO) throws SQLException;

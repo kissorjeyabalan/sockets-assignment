@@ -3,6 +3,12 @@ package no.kij.socketscheduler.server.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains all the details about a command.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
+ */
 public class CommandDetails {
     private CommandAction action;
     private CommandType type;
@@ -14,6 +20,12 @@ public class CommandDetails {
         this.args = new ArrayList<>();
     }
 
+    /**
+     * Create a new command with details.
+     *
+     * @param action CommandAction - This is the action to be executed
+     * @param type CommandType - This is the type for the command
+     */
     public CommandDetails(CommandAction action, CommandType type) {
         this.action = action;
         this.type = type;

@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * This class is the Data Transfer Object for the subjects.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 @DatabaseTable(tableName = "subjects", daoClass = SubjectDaoImpl.class)
 public class SubjectDTO {

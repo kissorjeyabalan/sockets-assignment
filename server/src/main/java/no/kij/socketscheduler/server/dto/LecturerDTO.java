@@ -6,6 +6,9 @@ import no.kij.socketscheduler.server.dao.LecturerDaoImpl;
 
 /**
  * This class is the data transfer object for the lecturers.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 @DatabaseTable(tableName = "lecturers", daoClass = LecturerDaoImpl.class)
 public class LecturerDTO {

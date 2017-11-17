@@ -16,6 +16,9 @@ import java.util.List;
 
 /**
  * JDBC specific implementation for the SubjectDao interface.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements SubjectDao {
     private Dao<SubjectLecturerDTO, Integer> subjectLecturerDao;

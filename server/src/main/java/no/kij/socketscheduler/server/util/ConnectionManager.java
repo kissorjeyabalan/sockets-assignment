@@ -9,6 +9,9 @@ import java.util.Properties;
 /**
  * The purpose of this class is to manage the database connections.
  * It helps pool the connections, so they can be reused.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class ConnectionManager {
     private ConnectionSource connectionSource;

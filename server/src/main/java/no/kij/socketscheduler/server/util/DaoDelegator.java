@@ -1,17 +1,17 @@
 package no.kij.socketscheduler.server.util;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import no.kij.socketscheduler.server.dao.SubjectDao;
 import no.kij.socketscheduler.server.dao.SubjectDaoImpl;
 import no.kij.socketscheduler.server.dao.LecturerDao;
 import no.kij.socketscheduler.server.dao.LecturerDaoImpl;
-import no.kij.socketscheduler.server.dto.SubjectLecturerDTO;
 
 import java.sql.SQLException;
 
 /**
  * A delegator which is used to retrieve Dao's.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class DaoDelegator {
     private ConnectionManager connectionManager;

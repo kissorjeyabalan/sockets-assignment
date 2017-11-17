@@ -10,6 +10,13 @@ import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * The client class is responsible for starting the client and establishing a connection to the server.
+ * It allows the user to communicate with the server using text input.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
+ */
 public class Client {
     private final int PORT = 8432;
     private final String HOST = "127.0.0.1";
@@ -44,9 +51,6 @@ public class Client {
             System.out.println("Client shutdown.");
     }
 
-    protected Socket createSocket(String host, int port) throws IOException {
-        return new Socket(host, port);
-    }
     /**
      * Sends a message to the server and flushes the stream.
      * @param msg Message to be sent to server
@@ -100,6 +104,9 @@ public class Client {
         }
     }
 
+    /**
+     * Initializes the class fields with the necessary values.
+     */
     private void setupClient() {
         try {
             System.out.println("Attempting to open connection...");
@@ -113,5 +120,12 @@ public class Client {
             System.err.println(e.getMessage());
             running = false;
         }
+    }
+
+    /**
+     * Creates a socket using the given parameters.
+     */
+    protected Socket createSocket(String host, int port) throws IOException {
+        return new Socket(host, port);
     }
 }

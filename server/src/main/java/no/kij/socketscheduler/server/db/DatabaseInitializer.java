@@ -17,6 +17,9 @@ import java.util.ArrayList;
 /**
  * The purpose of this class is to setup the base structure for the database using the DTO class structure,
  * as well as populating the fields for the database with some default content.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class DatabaseInitializer {
     private ConnectionManager connectionManager;

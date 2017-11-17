@@ -10,13 +10,15 @@ import com.j256.ormlite.support.ConnectionSource;
 import no.kij.socketscheduler.server.dto.LecturerDTO;
 import no.kij.socketscheduler.server.dto.SubjectDTO;
 import no.kij.socketscheduler.server.dto.SubjectLecturerDTO;
-import no.kij.socketscheduler.server.util.DaoDelegator;
 
 import java.sql.SQLException;
 import java.util.List;
 
 /**
  * JDBC specific implementation for the LecturerDao interface.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 public class LecturerDaoImpl extends BaseDaoImpl<LecturerDTO, Integer> implements LecturerDao {
     private Dao<SubjectDTO, Integer> subjectDao;
@@ -100,7 +102,10 @@ public class LecturerDaoImpl extends BaseDaoImpl<LecturerDTO, Integer> implement
     }
 
 
-
+    /**
+     * Creates the query to fetch lecturers for subject.
+     * @return PreparedQuery containing the query
+     */
     private PreparedQuery<SubjectDTO> makeSubjectForLecturerQuery() throws SQLException {
         QueryBuilder<SubjectLecturerDTO, Integer> subLecQb = subjectLecturerDao.queryBuilder();
 

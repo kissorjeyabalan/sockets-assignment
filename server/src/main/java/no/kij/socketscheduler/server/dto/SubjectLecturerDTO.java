@@ -5,6 +5,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * This class is the Data Transfer Object for the subject_lecturer table.
+ *
+ * @author Kissor Jeyabalan
+ * @since 1.0
  */
 @DatabaseTable(tableName = "subject_lecturer")
 public class SubjectLecturerDTO {
