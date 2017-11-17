@@ -38,13 +38,6 @@ public class ConnectionManager {
     }
 
     /**
-     * Used to reopen a closed ConnectionManager.
-     */
-    public void open() {
-        openPooledConnection();
-    }
-
-    /**
      * Used to close the ConnectionManager and kill any active connections.
      */
     public void close() {
@@ -68,7 +61,7 @@ public class ConnectionManager {
                     connectionSource = new JdbcPooledConnectionSource(credentials.getProperty("database_url"));
                 }
             } catch (SQLException e) {
-                System.err.println("Couldn't open Pooled Connection");
+                System.err.println("Couldn't open a pooled connection");
                 System.err.println(e.getMessage());
             }
         }

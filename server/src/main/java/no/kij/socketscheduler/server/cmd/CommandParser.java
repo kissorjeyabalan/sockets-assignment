@@ -17,6 +17,8 @@ public class CommandParser {
                 return createSearchCommand(splitCommand);
             case "help":
                 return createHelp(splitCommand);
+            case "exit":
+                return new CommandDetails(CommandAction.EXIT, CommandType.NONE);
         }
         return null;
     }
@@ -27,7 +29,7 @@ public class CommandParser {
             return createUsage(CommandType.LIST);
 
         CommandType cmdType = parseCommandType(args[1]);
-        if (cmdType == null)
+        if (cmdType == CommandType.NONE)
             return createUsage(CommandType.LIST);
 
         CommandDetails listCmd = new CommandDetails();
@@ -41,7 +43,7 @@ public class CommandParser {
             return createUsage(CommandType.SEARCH);
 
         CommandType cmdType = parseCommandType(args[1]);
-        if (cmdType == null) {
+        if (cmdType == CommandType.NONE) {
             return createUsage(CommandType.SEARCH);
         }
 

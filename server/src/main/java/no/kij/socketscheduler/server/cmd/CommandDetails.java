@@ -1,5 +1,6 @@
 package no.kij.socketscheduler.server.cmd;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandDetails {
@@ -10,12 +11,13 @@ public class CommandDetails {
     public CommandDetails() {
         this.action = null;
         this.type = null;
-        this.args = null;
+        this.args = new ArrayList<>();
     }
 
     public CommandDetails(CommandAction action, CommandType type) {
         this.action = action;
         this.type = type;
+        this.args = new ArrayList<>();
     }
 
     public CommandAction getAction() {

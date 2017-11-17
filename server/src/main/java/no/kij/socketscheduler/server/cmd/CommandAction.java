@@ -4,5 +4,6 @@ public enum CommandAction {
     LIST,
     SEARCH,
     SEND_HELP,
-    SEND_USAGE
+    SEND_USAGE,
+    EXIT
 }

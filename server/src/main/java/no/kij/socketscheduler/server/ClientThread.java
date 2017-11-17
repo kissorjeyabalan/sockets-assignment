@@ -83,6 +83,7 @@ public class ClientThread implements Runnable {
     private void closeStreams() {
         try {
             System.out.println("Closing streams and terminating thread.");
+            running = false;
             outputStream.close();
             inputStream.close();
             clientSocket.close();
@@ -135,6 +136,9 @@ public class ClientThread implements Runnable {
                 case SEND_USAGE:
                     sendUsage(cmd.getType());
                     break;
+                case EXIT:
+                    closeStreams();
+                    break;
             }
         }
         sendMsgToClient(END_TRANSMISSION);
@@ -148,9 +152,6 @@ public class ClientThread implements Runnable {
                 break;
             case SUBJECT:
                 listSubject();
-                break;
-            default:
-                sendUsage(CommandType.LIST);
                 break;
         }
     }
@@ -191,9 +192,6 @@ public class ClientThread implements Runnable {
                 break;
             case SUBJECT:
                 searchSubject(argsAsString);
-                break;
-            default:
-                sendUsage(CommandType.SEARCH);
                 break;
         }
     }
@@ -357,7 +355,7 @@ public class ClientThread implements Runnable {
                 sendMsgToClient("@|cyan -------------------------------|@\n");
                 break;
             case NONE:
-                if (cmd.getArgs() != null) {
+                if (cmd.getArgs().size() > 0) {
                     sendMsgToClient("@|red The command '" + cmd.getArgs().get(0) + "' does not exist.|@\n");
                 } else {
                     sendMsgToClient("@|bold,cyan Help:|@");

@@ -27,10 +27,13 @@ public class DaoDelegator {
      * @return SubjectDao
      */
     public SubjectDao getSubjectDao() {
+        if (subjectDao != null) {
+            return subjectDao;
+        }
         try {
-            return new SubjectDaoImpl(connectionManager.getConnectionSource());
+            subjectDao = new SubjectDaoImpl(connectionManager.getConnectionSource());
+            return subjectDao;
         } catch (SQLException e) {
-            System.err.println("Something went wrong while creating the Dao.");
             System.err.println(e.getMessage());
             return null;
         }
@@ -48,21 +51,6 @@ public class DaoDelegator {
             lecturerDao = new LecturerDaoImpl(connectionManager.getConnectionSource());
             return lecturerDao;
         } catch (SQLException e) {
-            System.err.println("Something went wrong while creating the Dao.");
-            System.err.println(e.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Fetch a dao used to manipulate the subject_lecturer table.
-     * @return Dao Checked dao
-     */
-    public Dao<SubjectLecturerDTO, Integer> getSubjectLecturerDao() {
-        try {
-            return DaoManager.createDao(connectionManager.getConnectionSource(), SubjectLecturerDTO.class);
-        } catch (SQLException e) {
-            System.err.println("Something went wrong while creating the Dao.");
             System.err.println(e.getMessage());
             return null;
         }
