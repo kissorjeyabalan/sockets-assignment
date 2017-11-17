@@ -21,9 +21,6 @@ import java.util.stream.Collectors;
  * A class used to thread incoming client connections to a new thread,
  * allowing several clients to communicate with a single server.
  * This also houses all the logic for parsing the incoming commands from the client.
- *
- * @author Kissor Jeyabalan
- * @since 1.0
  */
 public class ClientThread implements Runnable {
     //region Properties
@@ -366,9 +363,8 @@ public class ClientThread implements Runnable {
     }
 
     /**
-     * Sends help content for given command.
-     *
-     * @param cmd Command to send help for
+     * Send hjel
+     * @param cmd
      */
     private void sendHelp(CommandDetails cmd) {
         switch (cmd.getType()) {
@@ -408,6 +404,7 @@ public class ClientThread implements Runnable {
                 break;
         }
     }
+
 
     //endregion
 }

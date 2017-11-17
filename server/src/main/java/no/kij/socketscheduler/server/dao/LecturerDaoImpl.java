@@ -33,7 +33,6 @@ public class LecturerDaoImpl extends BaseDaoImpl<LecturerDTO, Integer> implement
      * Find a lecturer by name
      * @param name Name to search for
      * @return LecturerDTO if found, null if not
-     * @throws SQLException If something goes wrong while querying for the given name
      */
     public LecturerDTO queryForLecturerName(String name) {
         LecturerDTO lecturerDTO = null;

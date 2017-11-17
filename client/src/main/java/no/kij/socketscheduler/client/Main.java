@@ -18,6 +18,7 @@ public class Main {
     /**
      * Entry point for the program.
      * It creates an instance of itself and start the client.
+     * @param args Arguments to pass to main method
      */
     public static void main(String[] args) {
         Client client = new Client();

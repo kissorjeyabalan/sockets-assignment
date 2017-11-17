@@ -19,7 +19,6 @@ public class ResourceFetcher {
      *
      * @param fileName Name of file to be read, file extension inclusive
      * @return Content of file as string. Returns empty string if file is empty
-     * @throws IOException Throws exception if file is not found or can not be read
      */
     public static String getFile(String fileName) {
         InputStream in = ResourceFetcher.class.getClassLoader().getResourceAsStream(fileName);
@@ -51,6 +50,7 @@ public class ResourceFetcher {
      * Returns properties file from the given file name.
      *
      * @return Properties from the given filename
+     * @param fileName String containing name of file containing the properties
      */
     public static Properties getProperty(String fileName) {
         InputStream inputStream = ResourceFetcher.class.getClassLoader().getResourceAsStream(fileName + ".properties");

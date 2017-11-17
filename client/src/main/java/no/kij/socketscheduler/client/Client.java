@@ -124,6 +124,10 @@ public class Client {
 
     /**
      * Creates a socket using the given parameters.
+     * @param host Host to create socket for
+     * @param port Port to create socket for
+     * @return Socket
+     * @throws IOException If socket could not be created
      */
     protected Socket createSocket(String host, int port) throws IOException {
         return new Socket(host, port);

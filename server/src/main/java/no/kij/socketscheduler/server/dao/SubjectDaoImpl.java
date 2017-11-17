@@ -90,7 +90,7 @@ public class SubjectDaoImpl extends BaseDaoImpl<SubjectDTO, Integer> implements 
      * Find a subject by its ID in the database.
      * @param integer ID to search for
      * @return SubjectDTO if found, null if not
-     * @throws SQLException
+     * @throws SQLException If something goes wrong with the query
      */
     @Override
     public SubjectDTO queryForId(Integer integer) throws SQLException {

@@ -60,6 +60,7 @@ public class ClientThreadTest {
         runWithMsg("exit");
         assertTrue(outputStream.toString().contains("You have been successfully connected to the Scheduler Database."));
         assertTrue(outputStream.toString().contains("END_TRANSMISSION"));
+        fail("immediately");
     }
 
     @Test
